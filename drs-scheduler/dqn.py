@@ -14,10 +14,10 @@ pod_action = {}
 
 app = Flask(__name__)
 
-node1 = ("192.168.1.145", 9000)
-node2 = ("192.168.1.116", 9000)
-node3 = ("192.168.1.193", 9000)
-node4 = ("192.168.1.199", 9000)
+node1 = ("192.168.3.125", 9000)
+node2 = ("192.168.3.126", 9000)
+node3 = ("192.168.3.127", 9000)
+node4 = ("192.168.3.128", 9000)
 
 sock2Node1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock2Node1.connect(node1)
@@ -130,9 +130,10 @@ def makeStep(dqn, env, state, action):
         env.reset()
 
     if dqn.memory_counter > MEMORY_CAPACITY:
-        t_file = open('transition.pkl', 'w')
-        pickle.dump(dqn.memory, t_file)
-        t_file.close()
+        # t_file = open('transition.pkl', 'w')
+        # pickle.dump(dqn.memory, t_file)
+        # t_file.close()
+        dqn.learn()
 
 
 @app.route('/choose', methods = ['POST'])
@@ -147,11 +148,14 @@ def choose():
     s = env.state
 
     if podname.find('video') != -1:
-        s_pod = [100.0, 23.0, 11.25, 2.49, 0.0, 1.54]
+        # s_pod = [100.0, 23.0, 11.25, 2.49, 0.0, 1.54]
+        s_pod = [99.3, 7.8, 2.2, 1.5, 0.0, 0.6]
     elif podname.find('net') != -1:
-        s_pod = [54.0, 46.2, 80.04, 71.4, 0.0, 1.58]
+        # s_pod = [54.0, 46.2, 80.04, 71.4, 0.0, 1.58]
+        s_pod = [1.2, 7.9, 90.1, 90.1, 0.0, 0.8]
     elif podname.find('disk') != -1:
-        s_pod = [100.0, 22.96, 12.6, 2.73, 0.0, 86.26]
+        # s_pod = [100.0, 22.96, 12.6, 2.73, 0.0, 86.26]
+        s_pod = [51.4, 7.9, 1.2, 1.4, 0.0, 25.3]
     else:
         s_pod = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
