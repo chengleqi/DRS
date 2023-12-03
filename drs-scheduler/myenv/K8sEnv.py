@@ -14,7 +14,7 @@ def getNodeState(sock, node):
 class K8sEnv(core.Env):
 	def __init__(self):
 		self.count = 0
-		self.maxCount = 100
+		self.maxCount = 300
 
 		# env parameter
 		self.viewer = None

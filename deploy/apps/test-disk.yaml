@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: stress-disk
+spec:
+  nodeName: drs-node01
+  containers:
+  - name: stress
+    image: polinux/stress
+    args:
+    - stress
+    - --hdd
+    - "1"
+    - --hdd-bytes
+    - "256K"
+    - -t
+    - "150s"
+      #resources:
+      #limits:
+      #cpu: 2000m
+      #requests:
+      #cpu: 2000m
+  restartPolicy: OnFailure

@@ -140,7 +140,7 @@ spec:
     spec:
 
       serviceAccountName: my-scheduler
-      nodeName: ubuntu
+      nodeName: drs-master
 
       containers:
 
@@ -149,8 +149,11 @@ spec:
         - kube-scheduler
 
         - --config=/etc/kubernetes/my-scheduler/my-scheduler-config.yaml
+        - --authentication-kubeconfig=/etc/kubernetes/scheduler.conf
+        - --authorization-kubeconfig=/etc/kubernetes/scheduler.conf
+        - --leader-elect=false
 
-        image: 192.168.3.129/kubernetes/kube-scheduler:0.0.4
+        image: 192.168.3.129/kubernetes/kube-scheduler:0.0.6
 
         imagePullPolicy: IfNotPresent
 
@@ -193,6 +196,9 @@ spec:
           - name: config-volume
 
             mountPath: /etc/kubernetes/my-scheduler
+          - mountPath: /etc/kubernetes/scheduler.conf
+            name: kubeconfig
+            readOnly: true
 
       hostNetwork: false
 
@@ -205,3 +211,7 @@ spec:
           configMap:
 
             name: my-scheduler-config
+        - hostPath:
+            path: /etc/kubernetes/scheduler.conf
+            type: FileOrCreate
+          name: kubeconfig

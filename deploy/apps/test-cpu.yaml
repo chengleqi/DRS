@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: stress-video
+  name: stress-video1
 spec:
-  schedulerName: my-scheduler
+  nodeName: drs-node01
   containers:
   - name: stress
     image: polinux/stress
@@ -12,7 +12,7 @@ spec:
     - --cpu
     - "2"
     - -t
-    - "40s"
+    - "120s"
     resources:
       limits:
         cpu: 500m

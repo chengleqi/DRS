@@ -74,7 +74,9 @@ class DQN(object):
         x = torch.unsqueeze(torch.FloatTensor(x), 0)
         if np.random.uniform() < EPSILON:
             actions_value = self.eval_net.forward(x)
+            print("##########actions_value", actions_value)
             action = torch.max(actions_value, 1)[1].data.numpy()
+            print(action, action[0])
             action = action[0]
         else:
             action = np.random.randint(0, N_ACTIONS)
@@ -87,6 +89,7 @@ class DQN(object):
         self.memory_counter += 1
 
     def learn(self):
+        print("迭代一次")
         if self.learn_step_counter % TARGET_REPLACE_ITER == 0:
             self.target_net.load_state_dict(self.eval_net.state_dict())
         self.learn_step_counter += 1
@@ -125,9 +128,9 @@ def makeStep(dqn, env, state, action):
 
     dqn.store_transition(state, action, r, s_)
 
-    if env.count == 100:
-        pod_action.clear()
-        env.reset()
+    # if env.count == 100:
+    #     pod_action.clear()
+    #     env.reset()
 
     if dqn.memory_counter > MEMORY_CAPACITY:
         # t_file = open('transition.pkl', 'w')
@@ -149,13 +152,14 @@ def choose():
 
     if podname.find('video') != -1:
         # s_pod = [100.0, 23.0, 11.25, 2.49, 0.0, 1.54]
-        s_pod = [99.3, 7.8, 2.2, 1.5, 0.0, 0.6]
-    elif podname.find('net') != -1:
+        # s_pod = [100.0, 7.8, 2.2, 1.5, 0.0, 0.6]
+        s_pod = [25.6, 8.9, 1.1, 1.3, 0.0, 1.1]
+    elif podname.find('net') != -1: 
         # s_pod = [54.0, 46.2, 80.04, 71.4, 0.0, 1.58]
         s_pod = [1.2, 7.9, 90.1, 90.1, 0.0, 0.8]
     elif podname.find('disk') != -1:
         # s_pod = [100.0, 22.96, 12.6, 2.73, 0.0, 86.26]
-        s_pod = [51.4, 7.9, 1.2, 1.4, 0.0, 25.3]
+        s_pod = [13.0, 8.9, 1.5, 1.6, 0.0, 23.6]
     else:
         s_pod = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
@@ -167,13 +171,13 @@ def choose():
     action = ""
     a = dqn.choose_action(s)
     if a == 0:
-        action = "node1"
+        action = "drs-node01"
     elif a == 1:
-        action = "node2"
+        action = "drs-node02"
     elif a == 2:
-        action = "node3"
+        action = "drs-node03"
     else:
-        action = "node4"
+        action = "drs-node04"
 
     pod_action[podname] = action
 
