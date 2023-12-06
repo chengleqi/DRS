@@ -130,8 +130,8 @@ func (g *genericScheduler) Schedule(ctx context.Context, extenders []framework.E
 		}, nil
 	}
 
-	choose := " "
-	schedulerurl := "http://192.168.1.113:1234/choose"
+	choose := ""
+	schedulerurl := "http://192.168.3.108:1234/choose"
 	urlValues := url.Values{}
 	urlValues.Add("podname", pod.Name)
 	resp, err := http.PostForm(schedulerurl, urlValues)
@@ -141,11 +141,17 @@ func (g *genericScheduler) Schedule(ctx context.Context, extenders []framework.E
 		body, _ := ioutil.ReadAll(resp.Body)
 		choose = string(body)
 		fmt.Printf("[INFO] Get choose from DQN: %v\n\n", choose)
+		// for i := 0; i < len(feasibleNodes); i++ {
+		// 	node := feasibleNodes[i]
+		// 	if node.Name != choose {
+		// 		feasibleNodes = append(feasibleNodes[:i], feasibleNodes[i+1:]...)
+		// 		i--
+		// 	}
+		// }
 		for i := 0; i < len(feasibleNodes); i++ {
-			node := feasibleNodes[i]
-			if node.Name != choose {
-				feasibleNodes = append(feasibleNodes[:i], feasibleNodes[i+1:]...)
-				i--
+			if feasibleNodes[i].Name == choose {
+				feasibleNodes = []*v1.Node{feasibleNodes[i]}
+				break
 			}
 		}
 	}

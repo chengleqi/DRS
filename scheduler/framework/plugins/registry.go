@@ -38,6 +38,7 @@ import (
 	"k8s.io/kubernetes/pkg/scheduler/framework/plugins/volumerestrictions"
 	"k8s.io/kubernetes/pkg/scheduler/framework/plugins/volumezone"
 	"k8s.io/kubernetes/pkg/scheduler/framework/runtime"
+	"k8s.io/kubernetes/pkg/scheduler/framework/plugins/dqn"
 )
 
 // NewInTreeRegistry builds the registry with all the in-tree plugins.
@@ -54,6 +55,7 @@ func NewInTreeRegistry() runtime.Registry {
 	}
 
 	return runtime.Registry{
+		dqn.Name:			      dqn.New,
 		selectorspread.Name:                  selectorspread.New,
 		imagelocality.Name:                   imagelocality.New,
 		tainttoleration.Name:                 tainttoleration.New,
