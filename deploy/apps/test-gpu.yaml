@@ -9,9 +9,7 @@ spec:
       image: nvidia/cuda:12.0.1-cudnn8-devel-ubuntu22.04
       command: ["/bin/bash", "-c", "--"]
       args:
-        - sleep 36000
+        - sleep 3600
       resources:
         requests:
-          nvidia.com/gpu: 1
-        limits:
           nvidia.com/gpu: 1

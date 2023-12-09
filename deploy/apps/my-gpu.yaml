@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: stress-gpu
+spec:
+  runtimeClassName: nvidia
+  restartPolicy: OnFailure
+  schedulerName: my-scheduler
+  containers:
+    - name: stress
+      image: 192.168.3.129/kubernetes/gpu_mem_alloc:0.0.1
+      args:
+        - -m
+        - "46"
+        - -t
+        - "30"
+      resources:
+        requests:
+          nvidia.com/gpu: 1

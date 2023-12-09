@@ -4,8 +4,7 @@
 #include <chrono>
 #include <thread>
 
-// +154MB3
-
+// 模仿 https://github.com/wilicc/gpu-burn 的使用方法，但是不使用GPU计算，只占用显存
 size_t parseMemoryArgument(const char* arg, size_t freeMem) {
     char* end;
     double memArg = strtod(arg, &end);
