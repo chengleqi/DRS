@@ -4,8 +4,8 @@
 COUNT=$1
 
 # 基础文件名
-CPU_FILENAME="my-cpu.yaml"
-DISK_FILENAME="my-disk.yaml"
+CPU_FILENAME="cpu.yaml"
+DISK_FILENAME="disk.yaml"
 
 # 循环创建并应用 Pod
 for ((i=1; i<=COUNT; i++))
