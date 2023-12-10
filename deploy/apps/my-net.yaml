@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: stress-net
+spec:
+  containers:
+  - name: stress
+    image: utkudarilmaz/hping3
+    args:
+    - --udp
+    - --quiet
+    - --data
+    - "50"
+    - --interval
+    - "u1000"
+    - "192.168.3.131" # hping3 target host ip address
+  restartPolicy: OnFailure
