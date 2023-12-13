@@ -29,8 +29,8 @@ sudo systemctl restart containerd
 
 
 # on master node
-kubectl label node test-vgpu nvidia.com/device-plugin.config=q12
-
+kubectl label node test-vgpu nvidia.com/device-plugin.config=4q
+kubectl create ns gpu-operator
 kubectl apply -f time-slicing-config.yaml -n gpu-operator
 
 curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
