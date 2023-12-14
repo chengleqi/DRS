@@ -44,10 +44,10 @@ def Memory():
 
 def Network():
     now = time.time()
-    command = "awk '/ens33/{print $2,$10}' /proc/net/dev"
+    command = "awk '/enp6s18/{print $2,$10}' /proc/net/dev"
     state, net = subprocess.getstatusoutput(command)
     now_in, now_out = [int(item) for item in net.split(' ')]
-    return now_in, now_out, now
+    return now_out, now_out, now
 
 def Io():
     command = "sudo iotop -k -P -o -n 2 -b | awk '/Total/{print $4,$5,$10,$11}'"
@@ -67,6 +67,16 @@ def Io():
         # print(read, write)
         return read, write
 
+def VRAM():
+    command = "nvidia-smi --query-gpu=memory.used,memory.total --format=csv,noheader,nounits"
+    state, data = subprocess.getstatusoutput(command)
+    if state != 0:
+        print('[ERROR] Command failed!')
+    else:
+        used, total = data.split(',')
+        vram_usage = float('%.2f' % (float(used) / float(total)))
+        return vram_usage
+
 def state():
     cpu = Cpu()
     mem = Memory()
@@ -74,13 +84,14 @@ def state():
     read, write = Io()
     recv = float('%.2f' % ((now_in - last_in) / (now - last_time) / 1024))
     tran = float('%.2f' % ((now_out - last_out) / (now - last_time) / 1024))
-    states.append([cpu, mem, recv, tran, read, write])
+    vram = VRAM()
+    states.append([cpu, mem, recv, tran, read, write, vram])
 
 if __name__ == "__main__":
 
     last_in, last_out, last_time = Network()
 
-    for i in range(120):
+    for i in range(20):
         thread = MonitorThread(i, state)
         thread.start()
         time.sleep(0.5)

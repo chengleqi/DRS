@@ -82,11 +82,11 @@ def getMemState(num):
     return mem_state
 
 def getNetUsage():
-    command = "awk '/ens33/{print $2,$10}' /proc/net/dev"
+    command = "awk '/enp6s18/{print $2,$10}' /proc/net/dev"
     now = time.time()
     state, net = subprocess.getstatusoutput(command)
     now_in, now_out = [int(item) for item in net.split(' ')]
-    return now_in, now_out, now
+    return now_out, now_out, now
 
 def netQueue():
     global net_q
@@ -157,13 +157,31 @@ def getIOState(num):
     # print('[INFO] Write rate: {}K/s'.format(write_state))
     return read_state, write_state
 
+def vramQueue():
+    global vram_q
+    while True:
+        if vram_q.full():
+            vram_q.get()
+        vram_q.put(getVRAMUsage())
+        time.sleep(0.5)
+
+def getVRAMUsage():
+    command = "nvidia-smi --query-gpu=memory.used,memory.total --format=csv,noheader,nounits"
+    state, data = subprocess.getstatusoutput(command)
+    if state != 0:
+        print('[ERROR] Command {} failed!'.format(command))
+    else:
+        used, total = data.split(',')
+        vram_usage = float('%.2f' % (float(used) / float(total)))
+        return vram_usage
+
 def getState():
     cpu_state = getCpuState(avgtime)
     mem_state = getMemState(avgtime)
     in_state, out_state = getNetState(avgtime)
     read_state, write_state = getIOState(avgtime)
-    table = PrettyTable(["CPU Usage", "Memory Usage", "Traffic In", "Tranffic Out", "Read Rate", "Write Rate"])
-    table.add_row(["{}%".format(cpu_state), "{}%".format(mem_state), "{}KB/s".format(in_state), "{}KB/s".format(out_state), "{}KB/s".format(read_state), "{}KB/s".format(write_state)])
+    table = PrettyTable(["CPU Usage", "Memory Usage", "Traffic In", "Tranffic Out", "Read Rate", "Write Rate", "VRAM Usage"])
+    table.add_row(["{}%".format(cpu_state), "{}%".format(mem_state), "{}KB/s".format(in_state), "{}KB/s".format(out_state), "{}KB/s".format(read_state), "{}KB/s".format(write_state), "{}MB".format(getVRAMUsage())])
     print(table)
     return cpu_state, mem_state, in_state, out_state, read_state, write_state
 
@@ -183,15 +201,17 @@ if __name__ == "__main__":
     mem_thread = MonitorThread("Memory-Monitor", memQueue)
     net_thread = MonitorThread("Network-Monitor", netQueue)
     io_thread = MonitorThread("IO-Monitor", ioQueue)
+    vram_thread = MonitorThread("VRAM-Monitor", vramQueue)
 
     cpu_thread.start()
     mem_thread.start()
     net_thread.start()
     io_thread.start()
+    vram_thread.start()
 
     monitorInit()
 
-    host = "192.168.1.145"
+    host = "192.168.3.125"
     port = 9000
     connect = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     connect.bind((host, port))
