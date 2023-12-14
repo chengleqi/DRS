@@ -9,5 +9,5 @@ spec:
     image: utkudarilmaz/hping3
     command: ["/bin/sh", "-c", "--"]
     args:
-    - timeout 60s hping3 --udp --quiet --data 50 --interval u1000 192.168.3.131  # hping3 target host ip address
+    - timeout 150s hping3 --udp --quiet --data 50 --interval u1000 192.168.3.131  # hping3 target host ip address
   restartPolicy: OnFailure

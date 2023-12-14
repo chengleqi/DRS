@@ -94,6 +94,12 @@ class K8sEnv(core.Env):
 		self.getState()
 		print('[INFO] State after action: {}'.format(self.state))
 
+		avg_cpu_util = np.mean([self.state[0], self.state[6], self.state[12], self.state[18]])
+		avg_mem_util = np.mean([self.state[1], self.state[7], self.state[13], self.state[19]])
+		avg_net_util = np.mean([self.state[2], self.state[3], self.state[8], self.state[9], self.state[14], self.state[15], self.state[20], self.state[21]])
+		avg_io_util = np.mean([self.state[4], self.state[5], self.state[10], self.state[11], self.state[16], self.state[17], self.state[22], self.state[23]])
+		avg_util = (avg_cpu_util + avg_mem_util + avg_net_util + avg_io_util) / 4
+
 		std_cpu = np.std(np.array([self.state[0], self.state[6], self.state[12], self.state[18]],dtype=np.float32))
 		std_mem = np.std(np.array([self.state[1], self.state[7], self.state[13], self.state[19]],dtype=np.float32))
 		std_net = np.std(np.array([self.state[2], self.state[8], self.state[14], self.state[20]],dtype=np.float32))
@@ -101,7 +107,7 @@ class K8sEnv(core.Env):
 		std_io = np.std(np.array([self.state[4], self.state[10], self.state[16], self.state[22]],dtype=np.float32))
 		std_io = std_io + np.std(np.array([self.state[5], self.state[11], self.state[17], self.state[23]],dtype=np.float32))
 
-		reward = -1 * (std_cpu + std_mem + std_net + std_io)
+		reward = avg_util - (std_cpu + std_mem + std_net + std_io)
 		print('[INFO] Reward of this step: {}'.format(reward))
 		with open("reward.log", 'a') as f:
 			f.write('Action: {}, Reward: {}\n'.format(action, str(reward)))
