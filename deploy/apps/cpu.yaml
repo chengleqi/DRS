@@ -12,10 +12,10 @@ spec:
     - --cpu
     - "2"
     - -t
-    - "40s"
-    resources:
-      limits:
-        cpu: 500m
-      requests:
-        cpu: 500m
+    - "120s"
+    # resources:
+    #   limits:
+    #     cpu: 500m
+    #   requests:
+    #     cpu: 500m
   restartPolicy: OnFailure

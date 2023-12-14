@@ -13,9 +13,9 @@ spec:
     - "2"
     - -t
     - "120s"
-    resources:
-      limits:
-        cpu: 500m
-      requests:
-        cpu: 500m
+    # resources:
+    #   limits:
+    #     cpu: 500m
+    #   requests:
+    #     cpu: 500m
   restartPolicy: OnFailure

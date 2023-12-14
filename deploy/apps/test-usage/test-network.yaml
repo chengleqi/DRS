@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: stress-net
+  name: stress-network
 spec:
-  schedulerName: my-scheduler
+  nodeName: drs-node01
   containers:
   - name: stress
     image: utkudarilmaz/hping3

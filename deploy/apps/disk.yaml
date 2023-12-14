@@ -14,7 +14,7 @@ spec:
     - --hdd-bytes
     - "256K"
     - -t
-    - "50s"
+    - "100s"
     # resources:
     #   limits:
     #     cpu: 2000m
