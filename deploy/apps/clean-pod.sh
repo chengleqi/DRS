@@ -14,11 +14,14 @@ END_INDEX=$2
 for ((i=START_INDEX; i<=END_INDEX; i++))
 do
     CPU_POD_NAME="stress-video-$i"
-    echo "Deleting pod $DISK_POD_NAME"
+    echo "Deleting pod $CPU_POD_NAME"
     kubectl delete pod $CPU_POD_NAME
     DISK_POD_NAME="stress-disk-$i"
-    echo "Deleting pod $CPU_POD_NAME"
+    echo "Deleting pod $DISK_POD_NAME"
     kubectl delete pod $DISK_POD_NAME
+    NET_POD_NAME="stress-net-$i"
+    echo "Deleting pod $NET_POD_NAME"
+    kubectl delete pod $NET_POD_NAME
 done
 
 echo "Pod deletion completed."
