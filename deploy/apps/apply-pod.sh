@@ -21,6 +21,9 @@ do
     sed "s/stress-net/stress-net-$i/" $NET_FILENAME | kubectl apply -f -
     echo "Created pod stress-net-$i"
     sleep 10
+    sed "s/stress-gpu/stress-gpu-$i/" $NET_FILENAME | kubectl apply -f -
+    echo "Created pod stress-gpu-$i"
+    sleep 10
 done
 
 echo "All pods created successfully."
