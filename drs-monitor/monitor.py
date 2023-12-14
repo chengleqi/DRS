@@ -15,6 +15,7 @@ cpu_q = queue.Queue(maxsize = 10)
 mem_q = queue.Queue(maxsize = 10)
 net_q = queue.Queue(maxsize = 10)
 io_q = queue.Queue(maxsize = 10)
+vram_q = queue.Queue(maxsize = 10)
 
 class MonitorThread(threading.Thread):
     def __init__(self, name, func):
