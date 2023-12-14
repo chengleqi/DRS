@@ -4,6 +4,7 @@ import time
 import threading
 import socket
 from prettytable import PrettyTable
+import netifaces as ni
 
 avgtime = 2
 
@@ -194,6 +195,14 @@ def monitorInit():
     print('[INFO] Monitor initialize over!')
     return
 
+def get_ip_address(interface_name):
+    try:
+        interface_addresses = ni.ifaddresses(interface_name)
+        ip_address = interface_addresses[ni.AF_INET][0]['addr']
+        return ip_address
+    except KeyError:
+        return "No IP Address found for interface"
+
 if __name__ == "__main__":
 
     last_in, last_out, last_time = getNetUsage()
@@ -212,7 +221,8 @@ if __name__ == "__main__":
 
     monitorInit()
 
-    host = "192.168.3.125"
+    interface_name = 'enp6s18'
+    host = get_ip_address(interface_name)
     port = 9000
     connect = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     connect.bind((host, port))
