@@ -22,7 +22,7 @@ do
     NET_POD_NAME="stress-net-$i"
     echo "Deleting pod $NET_POD_NAME"
     kubectl delete pod $NET_POD_NAME
-    GPU_POD_NAME="stress-net-$i"
+    GPU_POD_NAME="stress-gpu-$i"
     echo "Deleting pod $GPU_POD_NAME"
     kubectl delete pod $GPU_POD_NAME
 done

@@ -7,6 +7,7 @@ COUNT=$1
 CPU_FILENAME="cpu.yaml"
 DISK_FILENAME="disk.yaml"
 NET_FILENAME="network.yaml"
+GPU_FILENAME="gpu.yaml"
 
 # 循环创建并应用 Pod
 for ((i=1; i<=COUNT; i++))
@@ -21,7 +22,7 @@ do
     sed "s/stress-net/stress-net-$i/" $NET_FILENAME | kubectl apply -f -
     echo "Created pod stress-net-$i"
     sleep 10
-    sed "s/stress-gpu/stress-gpu-$i/" $NET_FILENAME | kubectl apply -f -
+    sed "s/stress-gpu/stress-gpu-$i/" $GPU_FILENAME | kubectl apply -f -
     echo "Created pod stress-gpu-$i"
     sleep 10
 done
