@@ -13,7 +13,7 @@ spec:
         - -m
         - "146" # CUDA allocate 154 MB VRAM
         - -t
-        - "120"
+        - "300"
       resources:
         requests:
           nvidia.com/gpu: 1

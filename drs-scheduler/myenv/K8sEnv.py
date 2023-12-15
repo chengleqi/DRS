@@ -97,7 +97,7 @@ class K8sEnv(core.Env):
 		print('[INFO] Start dql step {}/{}'.format(self.count, self.maxCount))
 
 		print('[INFO] Wait for pod execution...')
-		time.sleep(5)
+		time.sleep(8)
 
 		self.getState()
 		print('[INFO] State after action: {}'.format(self.state))

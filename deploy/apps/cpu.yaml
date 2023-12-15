@@ -12,7 +12,7 @@ spec:
     - --cpu
     - "2"
     - -t
-    - "120s"
+    - "300s"
     # resources:
     #   limits:
     #     cpu: 500m
