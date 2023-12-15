@@ -3,14 +3,14 @@ def normalize_state(state):
     state[0] = min(state[0], 100)
 
     # Network receive and transmit normalization
-    state[2] = min(state[2] / 40 * 10, 100)
-    state[3] = min(state[3] / 40 * 10, 100)
+    state[2] = min(state[2] / 4 * 100, 100)
+    state[3] = min(state[3] / 4 * 100, 100)
 
     # IO read and write normalization
     state[4] = min(state[4] / 10240 * 100, 100)
     state[5] = min(state[5] / 10240 * 100, 100)
 
-    state[6] = min(state[6], 100)
+    state[6] = min(state[6] * 100, 100)
 
     return [round(item, 1) for item in state]
 

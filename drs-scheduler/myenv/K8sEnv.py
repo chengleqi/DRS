@@ -50,14 +50,14 @@ class K8sEnv(core.Env):
 		node3_state[0] = float('%.2f' % min(node3_state[0], 100))
 		node4_state[0] = float('%.2f' % min(node4_state[0], 100))
 		# recv tran  120KB/s => 100%
-		node1_state[2] = float('%.2f' % min(node1_state[2] / 40 * 10, 100))
-		node2_state[2] = float('%.2f' % min(node2_state[2] / 40 * 10, 100))
-		node3_state[2] = float('%.2f' % min(node3_state[2] / 40 * 10, 100))
-		node4_state[2] = float('%.2f' % min(node4_state[2] / 40 * 10, 100))
-		node1_state[3] = float('%.2f' % min(node1_state[3] / 40 * 10, 100))
-		node2_state[3] = float('%.2f' % min(node2_state[3] / 40 * 10, 100))
-		node3_state[3] = float('%.2f' % min(node3_state[3] / 40 * 10, 100))
-		node4_state[3] = float('%.2f' % min(node4_state[3] / 40 * 10, 100))
+		node1_state[2] = float('%.2f' % min(node1_state[2] / 4 * 100, 100))
+		node2_state[2] = float('%.2f' % min(node2_state[2] / 4 * 100, 100))
+		node3_state[2] = float('%.2f' % min(node3_state[2] / 4 * 100, 100))
+		node4_state[2] = float('%.2f' % min(node4_state[2] / 4 * 100, 100))
+		node1_state[3] = float('%.2f' % min(node1_state[3] / 4 * 100, 100))
+		node2_state[3] = float('%.2f' % min(node2_state[3] / 4 * 100, 100))
+		node3_state[3] = float('%.2f' % min(node3_state[3] / 4 * 100, 100))
+		node4_state[3] = float('%.2f' % min(node4_state[3] / 4 * 100, 100))
 		# read write 20480KB/s => 100%
 		node1_state[4] = float('%.2f' % min(node1_state[4] / 10240 * 100, 100))
 		node2_state[4] = float('%.2f' % min(node2_state[4] / 10240 * 100, 100))
@@ -73,10 +73,10 @@ class K8sEnv(core.Env):
 		# print('[INFO] Node4 State: {}'.format(node4_state))
 
 		# VRAM
-		node1_state[6] = float('%.2f' % min(node1_state[6], 100))
-		node2_state[6] = float('%.2f' % min(node2_state[6], 100))
-		node3_state[6] = float('%.2f' % min(node3_state[6], 100))
-		node4_state[6] = float('%.2f' % min(node4_state[6], 100))
+		node1_state[6] = float('%.2f' % min(node1_state[6] * 100, 100))
+		node2_state[6] = float('%.2f' % min(node2_state[6] * 100, 100))
+		node3_state[6] = float('%.2f' % min(node3_state[6] * 100, 100))
+		node4_state[6] = float('%.2f' % min(node4_state[6] * 100, 100))
 
 		# state: [cpu, mem, recv, tran, read, write, vram]
 		self.state[0:7] = node1_state
