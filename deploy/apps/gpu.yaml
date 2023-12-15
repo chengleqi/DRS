@@ -11,9 +11,11 @@ spec:
       image: 192.168.3.129/kubernetes/gpu_mem_alloc:0.0.1
       args:
         - -m
-        - "46"
+        - "146" # CUDA allocate 154 MB VRAM
         - -t
-        - "30"
+        - "120"
       resources:
         requests:
+          nvidia.com/gpu: 1
+        limits:
           nvidia.com/gpu: 1

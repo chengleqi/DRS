@@ -177,15 +177,22 @@ def getVRAMUsage():
         vram_usage = float('%.2f' % (float(used) / float(total)))
         return vram_usage
 
+def getVRAMState(num):
+    global vram_q
+    state_list = list(vram_q.queue)[-1 * num:]
+    vram_state = float('%.2f' % (sum(state_list) / len(state_list)))
+    return vram_state
+
 def getState():
     cpu_state = getCpuState(avgtime)
     mem_state = getMemState(avgtime)
     in_state, out_state = getNetState(avgtime)
     read_state, write_state = getIOState(avgtime)
+    vram_state = getVRAMState(avgtime)
     table = PrettyTable(["CPU Usage", "Memory Usage", "Traffic In", "Tranffic Out", "Read Rate", "Write Rate", "VRAM Usage"])
-    table.add_row(["{}%".format(cpu_state), "{}%".format(mem_state), "{}KB/s".format(in_state), "{}KB/s".format(out_state), "{}KB/s".format(read_state), "{}KB/s".format(write_state), "{}MB".format(getVRAMUsage())])
+    table.add_row(["{}%".format(cpu_state), "{}%".format(mem_state), "{}KB/s".format(in_state), "{}KB/s".format(out_state), "{}KB/s".format(read_state), "{}KB/s".format(write_state), "{}%".format(vram_state * 100)])
     print(table)
-    return cpu_state, mem_state, in_state, out_state, read_state, write_state
+    return cpu_state, mem_state, in_state, out_state, read_state, write_state, vram_state
 
 def monitorInit():
     print('[INFO] Waiting for monitor initialization...')
