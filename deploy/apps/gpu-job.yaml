@@ -1,0 +1,32 @@
+apiVersion: batch.volcano.sh/v1alpha1
+kind: Job
+metadata:
+  name: gpu
+spec:
+  minAvailable: 1
+  schedulerName: volcano
+  maxRetry: 5
+  queue: default
+  tasks:
+    - replicas: 1
+      name: job
+      template:
+        metadata:
+          name: stress
+        spec:
+          runtimeClassName: nvidia
+          restartPolicy: OnFailure
+          containers:
+          - name: stress
+            image: 192.168.3.129/kubernetes/gpu_mem_alloc:0.0.1
+            args:
+              - -m
+              - "146" # CUDA allocate 154 MB VRAM
+              - -t
+              - "300"
+            resources:
+              requests:
+                nvidia.com/gpu: 1
+              limits:
+                nvidia.com/gpu: 1
+          

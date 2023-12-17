@@ -1,0 +1,29 @@
+apiVersion: batch.volcano.sh/v1alpha1
+kind: Job
+metadata:
+  name: disk
+spec:
+  minAvailable: 1
+  schedulerName: volcano
+  maxRetry: 5
+  queue: default
+  tasks:
+    - replicas: 1
+      name: job
+      template:
+        metadata:
+          name: stress
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: stress
+            image: polinux/stress
+            args:
+            - stress
+            - --hdd
+            - "1"
+            - --hdd-bytes
+            - "256K"
+            - -t
+            - "240s"
+          

@@ -151,7 +151,7 @@ def choose():
     s = env.state
 
     # node = [0.4, 13.5, 0.2, 0.2, 0.0, 0.6, 0.0]
-    if podname.find('video') != -1:
+    if podname.find('cpu') != -1:
         s_pod = [24.7, 0.1, 0.1, 0.1, 0.0, 0.0, 0.0]
     elif podname.find('net') != -1: 
         s_pod = [0.1, 0.1, 22.2, 22.2, 0.0, 0.1, 0.0]
