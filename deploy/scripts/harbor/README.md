@@ -1,1 +1,1 @@
-内网虚拟机测试用Harbor，请勿参考
+【Harbor镜像仓库搭建流程】 https://www.bilibili.com/video/BV1sS4y1N73M
